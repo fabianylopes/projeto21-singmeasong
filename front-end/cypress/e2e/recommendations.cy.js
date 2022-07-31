@@ -1,59 +1,64 @@
 /// <reference types="cypress" />
 
-import { faker } from '@faker-js/faker';
+import createRecommendation from "../factories/createRecommendation.js";
 
 const URL = 'http://localhost:3000';
 
 describe('recommendations suit test', () => {  
-    /* beforeEach(() => {
+    beforeEach(() => {
         cy.resetDb();
-    }) */
+    })
     
-   /*  it('should insert recommendation', () => {
-        const body = {
-            name: faker.music.songName(),
-            url: 'https://www.youtube.com/watch?v=UCCyoocDxBA'
-        }
-        
-        cy.visit(`${URL}`);
-  
-        cy.get('#name').type(body.name);
-        cy.get('#url').type(body.url);
-    
-        cy.intercept("POST", "/recommendations").as('insertRecommandation')
-        cy.get("#button").click();
-        cy.wait("@insertRecommandation");
+    it('should insert recommendation', () => {
+        const body = createRecommendation();
 
-        cy.contains(body.name).should('be.visible');
+        cy.createRecommendationTest(body);
+        cy.contains(recommendation.name);
 
         cy.end();
-    }); */
+    });
 
     it('with empty body should show error window', () => {
-        const body = {};
+        cy.visit(`${URL}`);
+        
+        cy.get("button").click();
 
-        cy.insertRecommandation(body);
+        cy.alertTest();
 
-        cy.on('window:alert', (text) => {
-            expect(text).to.contains('Error creating recommendation!').end();
-        });
+        cy.end();
         
     });
 
     it('should upvote when button is clicked', () => {
+        const body = createRecommendation();
 
-        cy.visit(`${URL}`);
+        cy.createRecommendationTest(body);
 
-        cy.get('#arrowUp').click();
+        cy.upVote();
 
-
+        cy.end();
     });
 
     it('should downvote when button is clicked', () => {
-        
-        cy.visit(`${URL}`);
+        const body = createRecommendation();
 
-        cy.get('#arrowDown').click();
+        cy.createRecommendationTest(body);
 
+        cy.downVote();
+
+        cy.end();
+    });
+
+    it('should erase if score is below -5"', () => {
+        const body = createRecommendation();
+        cy.createRecommendationTest(body);
+
+        for(let i = 0; i < 5; i++){
+            cy.get('#arrowDown').click();
+        }
+
+        cy.contains("No recommendations yet! Create your own :)");
+
+        cy.end();
     });
 });
