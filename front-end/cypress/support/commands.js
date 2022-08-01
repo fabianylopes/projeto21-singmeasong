@@ -56,11 +56,9 @@ Cypress.Commands.add('random', () => {
 Cypress.Commands.add('top', () => {
 	cy.visit('http://localhost:3000/');
 
-	cy.intercept('GET', '/recommendations/top/2').as('topRecommendation');
 	cy.contains('Top').click();
-	cy.wait('@topRecommendation');
 
 	cy.url().should("equal", "http://localhost:3000/top");
 
-	cy.get('article').should('have.length', 2);
-})
+	cy.get('article').should('have.length', 4);
+});

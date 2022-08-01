@@ -13,9 +13,9 @@ app.use(cors());
 app.use(express.json());
 
 app.use('/recommendations', recommendationRouter);
+app.use('/recommendations', e2eTestsRouter);
 
 if(process.env.NODE_ENV === 'test'){
-    app.use('/recommendations', e2eTestsRouter);
 }
 
 app.use(errorHandlerMiddleware);

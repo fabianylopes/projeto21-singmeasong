@@ -73,11 +73,11 @@ describe('recommendations suit test', () => {
     });
 	
 
-	it('should return recommendations according to the amount', () => {
+	it('should return top recommendations according to the amount', () => {
 		cy.seedDb();
 
 		cy.top();
 
 		cy.end();
-	})
+	});
 });
