@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 /// <reference types="cypress" />
 
 import createRecommendation from '../factories/createRecommendation.js';
@@ -5,14 +6,14 @@ import createRecommendation from '../factories/createRecommendation.js';
 const URL = 'http://localhost:3000';
 
 describe('recommendations suit test', () => {  
-	/* beforeEach(() => {
+	beforeEach(() => {
         cy.resetDb();
-    }) */
+    })
     
 	it('should insert recommendation', () => {
 		const body = createRecommendation();
 
-		cy.createRecommendation(body);
+		cy.createRecommendationTest(body);
 		cy.contains(body.name);
 
 		cy.end();
@@ -32,7 +33,7 @@ describe('recommendations suit test', () => {
 	it('should upvote when button is clicked', () => {
 		const body = createRecommendation();
 
-		cy.createRecommendation(body);
+		cy.createRecommendationTest(body);
 
 		cy.upVote();
 
@@ -42,7 +43,7 @@ describe('recommendations suit test', () => {
 	it('should downvote when button is clicked', () => {
 		const body = createRecommendation();
 
-		cy.createRecommendation(body);
+		cy.createRecommendationTest(body);
 
 		cy.downVote();
 
@@ -51,9 +52,10 @@ describe('recommendations suit test', () => {
 
 	it('should erase if score is below -5"', () => {
 		const body = createRecommendation();
-		cy.createRecommendation(body);
 
-		for(let i = 0; i < 5; i++){
+		cy.createRecommendationTest(body);
+
+		for(let i = 0; i < 6; i++){
 			cy.get('#arrowDown').click();
 		}
 
@@ -62,5 +64,20 @@ describe('recommendations suit test', () => {
 		cy.end();
 	});
 
-    
+	it('should get random recommendations', () => {
+		cy.seedDb();
+
+		cy.random();
+
+		cy.end();
+    });
+	
+
+	it('should return recommendations according to the amount', () => {
+		cy.seedDb();
+
+		cy.top();
+
+		cy.end();
+	})
 });

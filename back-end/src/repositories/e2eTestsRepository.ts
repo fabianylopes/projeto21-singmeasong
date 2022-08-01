@@ -9,22 +9,22 @@ async function seed() {
         {
           name: 'Helena',
           youtubeLink: 'https://www.youtube.com/watch?v=UCCyoocDxBA',
-          score: 110,
+          score: 16,
         },
         {
           name: 'Space Oddity',
           youtubeLink: 'https://www.youtube.com/watch?v=iYYRH4apXDo',
-          score: 102,
+          score: 12,
         },
         {
           name: 'November Rain',
           youtubeLink: 'https://www.youtube.com/watch?v=8SbUC-UaAxE',
-          score: 120,
+          score: 22,
         },
         {
-          name: 'Total Eclipse of the Heart',
-          youtubeLink: 'https://www.youtube.com/watch?v=Svz-W5w2bPM',
-          score: 108,
+          name: 'Girls Just Want To Have Fun',
+          youtubeLink: 'https://www.youtube.com/watch?v=PIb6AZdTr-A',
+          score: 18,
         },
     ];
 

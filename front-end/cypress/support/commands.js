@@ -1,12 +1,13 @@
-Cypress.Commands.add('resetDb', () => {
-	cy.request('POST', 'http://localhost:5000/recommendations/reset', {});
+/* eslint-disable no-undef */
+Cypress.Commands.add("resetDb", () => {
+    cy.request("POST", "http://localhost:5000/recommendations/reset", { });
 });
 
 Cypress.Commands.add('seedDb', () => {
 	cy.request('POST', 'http://localhost:5000/recommendations/seed', {});
 });
 
-Cypress.Commands.add('createRecommendation', (body) => {
+Cypress.Commands.add('createRecommendationTest', (body) => {
 	cy.visit('http://localhost:3000/');
 
 	cy.get('#name').type(body.name);
@@ -36,6 +37,30 @@ Cypress.Commands.add('downVote', () => {
 
 	cy.get('#arrowDown').click();
 
-	cy.get('#score').should('contain', '-1');
+	cy.get('#score').should('contain', '0');
 });
 
+Cypress.Commands.add('random', () => {
+	cy.visit('http://localhost:3000/');
+
+	cy.intercept('GET', '/recommendations/random').as('randomRecommendation');
+	cy.contains('Random').click();
+	cy.wait('@randomRecommendation');
+	
+	cy.url().should("equal", "http://localhost:3000/random");
+
+	cy.get('article').should('have.length', 1);
+});
+
+
+Cypress.Commands.add('top', () => {
+	cy.visit('http://localhost:3000/');
+
+	cy.intercept('GET', '/recommendations/top/2').as('topRecommendation');
+	cy.contains('Top').click();
+	cy.wait('@topRecommendation');
+
+	cy.url().should("equal", "http://localhost:3000/top");
+
+	cy.get('article').should('have.length', 2);
+})
